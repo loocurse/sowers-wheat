@@ -10,6 +10,17 @@ const customTheme = extendTheme({
   colors,
   config,
   components,
+  styles: {
+    global: {
+      '.article > p': {
+        margin: '5px 0 0 0',
+      },
+      '.article > h1, .article > h2, .article > h3': {
+        fontWeight: '600',
+        marginTop: '20px',
+      },
+    },
+  },
 });
 
 export default customTheme;

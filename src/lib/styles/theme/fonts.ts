@@ -1,6 +1,8 @@
 import type { DeepPartial, Theme } from '@chakra-ui/react';
+import '@fontsource/caudex';
+import '@fontsource/lato';
 
 export const fonts: DeepPartial<Theme['fonts']> = {
-  body: `"Figtree", sans-serif`,
-  heading: `"Figtree", serif`,
+  heading: `'caudex', serif`,
+  body: `'lato', serif`,
 };
