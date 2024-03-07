@@ -29,16 +29,17 @@ const Articles = ({
         mx={5}
         py={9}
       >
-        {articles.map(({ crux, title, readTime, image }) => (
-          <GridItem>
-            <ArticleCard
-              title={title}
-              crux={crux}
-              imageSrc={image}
-              readTime={readTime}
-            />
-          </GridItem>
-        ))}
+        {articles &&
+          articles.map(({ crux, title, readTime, image }) => (
+            <GridItem>
+              <ArticleCard
+                title={title}
+                crux={crux}
+                imageSrc={image}
+                readTime={readTime}
+              />
+            </GridItem>
+          ))}
       </Grid>
     </Flex>
   );
