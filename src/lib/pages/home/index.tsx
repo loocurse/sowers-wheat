@@ -22,6 +22,7 @@ const Home = () => {
             fontSize={{ md: '5xl', base: '4xl' }}
             lineHeight={{ md: 'xl', base: 'md' }}
             fontWeight="light"
+            textAlign={{ base: 'center', md: 'left' }}
           >
             Restoring initimacy in marriages through Biblical principles
           </Heading>
@@ -32,7 +33,7 @@ const Home = () => {
       </Flex>
       <Flex justify="center" align="center" bg="white">
         <Box w="60%" py="50px">
-          <Text textAlign="center">
+          <Text textAlign="center" fontSize={{ md: 'xl', base: 'md' }}>
             Many of us build successful public lives but come home to an ashamed
             private life where we find our greatest enemy, our own fleshly self.
             We believe the living and powerful word sown into our lives is the
