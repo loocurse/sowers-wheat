@@ -10,7 +10,7 @@ export const getStaticPaths = async () => {
   const paths = articleFiles.map((filename) => ({
     params: { id: encodeURI(filename.split('.html')[0]) },
   }));
-  return { paths, fallback: true };
+  return { paths, fallback: false };
 };
 
 export async function getStaticProps({ params }: { params: { id: string } }) {
