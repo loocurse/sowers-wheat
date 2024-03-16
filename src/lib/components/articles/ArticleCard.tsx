@@ -19,7 +19,7 @@ type Props = {
 
 const ArticleCard = ({ crux, title, imageSrc, readTime }: Props) => {
   return (
-    <Link href={`articles/${title}`} textDecoration="none">
+    <Link href={`articles/${title.replaceAll(' ', '-')}`} textDecoration="none">
       <Card maxW="sm">
         <CardBody>
           <Image

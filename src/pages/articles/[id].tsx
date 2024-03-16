@@ -8,18 +8,19 @@ import { calculateReadTime } from '~/lib/utils';
 export const getStaticPaths = async () => {
   const articleFiles = await fs.readdir('src/lib/data/articles');
   const paths = articleFiles.map((filename) => ({
-    params: { id: encodeURI(filename.split('.html')[0]) },
+    params: { id: filename.split('.html')[0] },
   }));
   return { paths, fallback: false };
 };
 
 export async function getStaticProps({ params }: { params: { id: string } }) {
-  const title = decodeURI(params.id);
+  const title = params.id.replaceAll('-', ' ');
   const content = (
-    await fs.readFile(`src/lib/data/articles/${title}.html`)
+    await fs.readFile(`src/lib/data/articles/${params.id}.html`)
   ).toString();
   const article = {
     content,
+    id: params.id,
     title,
     readTime: calculateReadTime(content),
   };

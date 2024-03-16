@@ -10,8 +10,8 @@ export const getStaticProps = async () => {
   const articles = await Promise.all(
     articleFileNames.map(async (filename) => {
       const content = (await fs.readFile(`${rootPath}/${filename}`)).toString();
-      const title = filename.split('.html')[0];
-      const link = encodeURI(title);
+      const title = filename.split('.html')[0].replaceAll('-', ' ');
+      const link = filename.split('.html')[0];
       const readTime = calculateReadTime(content);
       return {
         content,
