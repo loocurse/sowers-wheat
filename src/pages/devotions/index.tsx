@@ -1,14 +1,9 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
-import {
-  Box,
-  Button,
-  Flex,
-  Grid,
-  GridItem,
-  Progress,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, Grid, GridItem, Text } from '@chakra-ui/react';
 import fs from 'fs/promises';
 import { useRouter } from 'next/router';
 import { walk } from 'node-os-walk';
@@ -42,10 +37,12 @@ export const getStaticProps = async () => {
 export default ({ devos }) => {
   const [toShow, setToShow] = useState(devos);
   const router = useRouter();
-  const clickHandler = (content) => {
+  const [nest, setNest] = useState('');
+  const clickHandler = (content, type) => {
     if (content.link) {
       router.push(content.link);
     } else {
+      setNest(type);
       setToShow(content);
     }
   };
@@ -59,11 +56,29 @@ export default ({ devos }) => {
       w="full"
       bg="#F3E9D9"
     >
+      <Flex w="90%" mt={4} align="center" justify="center" pos="relative">
+        {nest && (
+          <Button
+            position="absolute"
+            left={0}
+            bgColor="transparent"
+            onClick={() => {
+              setToShow(devos);
+              setNest('');
+            }}
+          >
+            Back
+          </Button>
+        )}
+        <Text fontSize="xl" fontWeight="bold">
+          {nest ? nest.replace('-', ' ') : 'Devotions'}
+        </Text>
+      </Flex>
       <Grid
         templateColumns={{ md: 'repeat(1, 1fr)', base: 'repeat(1, 1fr)' }}
         gap={3}
         mx={5}
-        py={9}
+        py={2}
       >
         {Object.entries(toShow)
           .sort(
@@ -71,15 +86,15 @@ export default ({ devos }) => {
           )
           .map(([type, content]) => {
             return (
-              <GridItem>
+              <GridItem key={type}>
                 <Box
-                  onClick={() => clickHandler(content)}
+                  onClick={() => clickHandler(content, type)}
                   border="1px solid black"
                   borderRadius="4px"
                   px={4}
                   py={2}
                   my={1}
-                  w="400px"
+                  w={{ base: '100%', md: '400px' }}
                   cursor="pointer"
                 >
                   <Text fontWeight="bold">
