@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 const routes = [
   { name: 'Home', path: '/' },
-  { name: 'About', path: '/about' },
+  { name: 'Devotions', path: '/devotions' },
   { name: 'Articles', path: '/articles' },
 ];
 
