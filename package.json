@@ -27,6 +27,7 @@
     "@emotion/styled": "^11.11.0",
     "@fontsource/caudex": "^5.0.18",
     "@fontsource/lato": "^5.0.18",
+    "@uidotdev/usehooks": "^2.4.1",
     "framer-motion": "^11.0.5",
     "next": "^14.1.0",
     "next-pwa": "^5.6.0",

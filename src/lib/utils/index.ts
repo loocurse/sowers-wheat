@@ -9,3 +9,7 @@ export const getCrux = (article: string) => {
   const match = article.match(regex);
   return (match as RegExpMatchArray)[1].slice(0, 300);
 };
+
+export const parseTitle = (string) => {
+  return string.split(')');
+};

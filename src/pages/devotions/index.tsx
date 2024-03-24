@@ -1,14 +1,33 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-continue */
 /* eslint-disable react/prop-types */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
-import { Box, Button, Flex, Grid, GridItem, Text } from '@chakra-ui/react';
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Card,
+  CardBody,
+  Checkbox,
+  Divider,
+  Flex,
+  Grid,
+  GridItem,
+  Heading,
+  Image,
+  Link,
+  Text,
+} from '@chakra-ui/react';
 import fs from 'fs/promises';
-import { useRouter } from 'next/router';
 import { walk } from 'node-os-walk';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
+import imageMap from '../../lib/data/devotions-map.json';
 import { calculateReadTime } from '~/lib/utils';
 
 export const getStaticProps = async () => {
@@ -16,15 +35,19 @@ export const getStaticProps = async () => {
   const devos = {};
   for await (const [root, dirs, files] of walk(rootPath)) {
     for (const file of files) {
+      if (file.name.endsWith('.json')) continue;
       const type = file.path.split('/')[file.path.split('/').length - 1];
       const id = file.name;
-      if (!devos[type]) {
-        devos[type] = {};
+      if (!devos[type]?.devotions) {
+        devos[type] = {
+          image: imageMap[type].image,
+          devotions: {},
+        };
       }
       const content = (
         await fs.readFile(`${file.path}/${file.name}`)
       ).toString();
-      devos[type][id] = {
+      devos[type].devotions[id] = {
         readTime: calculateReadTime(content),
         title: file.name.replaceAll('-', ' ').replace('.html', ''),
         link: `devotions/${type}/${id}`,
@@ -35,16 +58,19 @@ export const getStaticProps = async () => {
 };
 
 export default ({ devos }) => {
-  const [toShow, setToShow] = useState(devos);
-  const router = useRouter();
-  const [nest, setNest] = useState('');
-  const clickHandler = (content, type) => {
-    if (content.link) {
-      router.push(content.link);
-    } else {
-      setNest(type);
-      setToShow(content);
-    }
+  const [progress, setProgress] = useState({});
+
+  useEffect(() => {
+    setProgress(JSON.parse(localStorage.getItem('progress') as any));
+  }, []);
+
+  const progressClickHandler = (id, state) => {
+    const updatedProgress = {
+      ...progress,
+      [id]: state,
+    };
+    localStorage.setItem('progress', JSON.stringify(updatedProgress));
+    setProgress(updatedProgress);
   };
   return (
     <Flex
@@ -56,58 +82,84 @@ export default ({ devos }) => {
       w="full"
       bg="#F3E9D9"
     >
-      <Flex w="90%" mt={4} align="center" justify="center" pos="relative">
-        {nest && (
-          <Button
-            position="absolute"
-            left={0}
-            bgColor="transparent"
-            onClick={() => {
-              setToShow(devos);
-              setNest('');
-            }}
-          >
-            Back
-          </Button>
-        )}
-        <Text fontSize="xl" fontWeight="bold">
-          {nest ? nest.replace('-', ' ') : 'Devotions'}
-        </Text>
-      </Flex>
       <Grid
         templateColumns={{ md: 'repeat(1, 1fr)', base: 'repeat(1, 1fr)' }}
         gap={3}
         mx={5}
         py={2}
       >
-        {Object.entries(toShow)
+        {Object.entries(devos)
           .sort(
             ([typea], [typeb]) => +typea.split(')')[0] - +typeb.split(')')[0]
           )
-          .map(([type, content]) => {
+          .map(([type, content]): any => {
             return (
               <GridItem key={type}>
-                <Box
-                  onClick={() => clickHandler(content, type)}
-                  border="1px solid black"
-                  borderRadius="4px"
-                  px={4}
-                  py={2}
-                  my={1}
-                  w={{ base: '100%', md: '400px' }}
-                  cursor="pointer"
-                >
-                  <Text fontWeight="bold">
-                    {type.replace('.html', '').replaceAll('-', ' ')}
-                  </Text>
-                  {/* <Progress
-                    mt={2}
-                    colorScheme="green"
-                    height="12px"
-                    value={20}
-                    borderRadius="4px"
-                  /> */}
-                </Box>
+                <Card maxW="sm">
+                  <CardBody>
+                    <Image
+                      src={(content as any).image}
+                      alt="Green double couch with wooden legs"
+                      borderRadius="lg"
+                      h="200px"
+                      w="100%"
+                      objectFit="cover"
+                    />
+                    <Accordion allowToggle>
+                      <AccordionItem>
+                        <AccordionButton
+                          display="flex"
+                          justifyItems="space-between"
+                          alignItems="center"
+                          p={0}
+                          py={3}
+                        >
+                          <Heading fontSize="md">
+                            {
+                              type
+                                .replace('.html', '')
+                                .replaceAll('-', ' ')
+                                .split(')')[1]
+                            }
+                          </Heading>
+                          <AccordionIcon />
+                        </AccordionButton>
+                        <AccordionPanel>
+                          {Object.entries((content as any).devotions)
+                            .sort(
+                              ([x, devo], [y, devo2]) =>
+                                +(devo as any).title.split(')')[0] -
+                                +(devo2 as any).title.split(')')[0]
+                            )
+                            .map(([title, devo]) => (
+                              <>
+                                <Link href={(devo as any).link} py={2}>
+                                  <Flex py={2}>
+                                    <Checkbox
+                                      onChange={(e) =>
+                                        progressClickHandler(
+                                          (devo as any).link,
+                                          (e.target as any).checked
+                                        )
+                                      }
+                                      isChecked={progress[(devo as any).link]}
+                                      mr={3}
+                                      rounded="full"
+                                      variant="circular"
+                                    />
+                                    <Text>
+                                      {(devo as any).title.split(')')[1]}
+                                    </Text>
+                                  </Flex>
+                                </Link>
+                                <Divider />
+                              </>
+                            ))}
+                        </AccordionPanel>
+                      </AccordionItem>
+                    </Accordion>
+                  </CardBody>
+                </Card>
               </GridItem>
             );
           })}
