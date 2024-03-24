@@ -61,7 +61,7 @@ export default ({ devos }) => {
   const [progress, setProgress] = useState({});
 
   useEffect(() => {
-    setProgress(JSON.parse(localStorage.getItem('progress') as any));
+    setProgress(JSON.parse(localStorage.getItem('progress') as any) || {});
   }, []);
 
   const progressClickHandler = (id, state) => {
@@ -142,7 +142,7 @@ export default ({ devos }) => {
                                           (e.target as any).checked
                                         )
                                       }
-                                      isChecked={progress[(devo as any).link]}
+                                      isChecked={progress[(devo as any)?.link]}
                                       mr={3}
                                       rounded="full"
                                       variant="circular"
