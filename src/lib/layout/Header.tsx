@@ -21,6 +21,7 @@ import { FaPaypal } from 'react-icons/fa';
 
 const routes = [
   { name: 'Home', path: '/' },
+  { name: 'About', path: '/about' },
   { name: 'Devotions', path: '/devotions' },
   { name: 'Articles', path: '/articles' },
 ];
