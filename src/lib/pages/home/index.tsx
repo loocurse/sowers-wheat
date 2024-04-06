@@ -1,4 +1,6 @@
-import { Box, Flex, Heading, Text, Image } from '@chakra-ui/react';
+import { Box, Flex, Heading, Text, Image, Icon } from '@chakra-ui/react';
+import { FaWhatsapp } from 'react-icons/fa';
+import { MdOutlineEmail } from 'react-icons/md';
 
 const Home = () => {
   return (
@@ -40,6 +42,31 @@ const Home = () => {
             power unto salvation to all who believe - to save us from the inside
             out and transform our lives to live Christ fulfilling lives.
           </Text>
+        </Box>
+      </Flex>
+      <Flex justify="center" align="center" w="full" bg="#F3E9D9">
+        <Box w="100%" py="50px" textAlign="center">
+          <Heading w="100%">Contact us</Heading>
+          <Flex justify="center" mt={5}>
+            <Icon
+              as={FaWhatsapp}
+              w="50px"
+              mx="10px"
+              h="50px"
+              cursor="pointer"
+              onClick={() =>
+                window.open('https://api.whatsapp.com/send?phone=6594566907')
+              }
+            />
+            <Icon
+              as={MdOutlineEmail}
+              mx="10px"
+              w="50px"
+              h="50px"
+              cursor="pointer"
+              onClick={() => window.open('mailto:sowerswheat777@gmail.com')}
+            />
+          </Flex>
         </Box>
       </Flex>
     </Flex>
