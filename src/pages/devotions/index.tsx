@@ -25,6 +25,7 @@ import {
 } from '@chakra-ui/react';
 import fs from 'fs/promises';
 import { walk } from 'node-os-walk';
+import path from 'path';
 import { useEffect, useState } from 'react';
 
 import imageMap from '../../lib/data/devotions-map.json';
@@ -36,8 +37,12 @@ export const getStaticProps = async () => {
   for await (const [root, dirs, files] of walk(rootPath)) {
     for (const file of files) {
       if (file.name.endsWith('.json')) continue;
-      const type = file.path.split('/')[file.path.split('/').length - 1];
       const id = file.name;
+      const filePath = file.path.split(path.sep);
+      const type =
+        filePath[filePath.length - 1] === id
+          ? filePath[filePath.length - 2]
+          : filePath[filePath.length - 1];
       if (!devos[type]?.devotions) {
         devos[type] = {
           image: imageMap[type].image,
