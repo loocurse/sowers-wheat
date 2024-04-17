@@ -38,11 +38,8 @@ export const getStaticProps = async () => {
     for (const file of files) {
       if (file.name.endsWith('.json')) continue;
       const id = file.name;
-      const filePath = file.path.split(path.sep);
-      const type =
-        filePath[filePath.length - 1] === id
-          ? filePath[filePath.length - 2]
-          : filePath[filePath.length - 1];
+      const filePath = file.path.split(path.sep).filter((p) => p !== file.name);
+      const type = filePath[filePath.length - 1];
       if (!devos[type]?.devotions) {
         devos[type] = {
           image: imageMap[type].image,
@@ -50,7 +47,7 @@ export const getStaticProps = async () => {
         };
       }
       const content = (
-        await fs.readFile(`${file.path}/${file.name}`)
+        await fs.readFile(`${path.join(...filePath)}/${file.name}`)
       ).toString();
       devos[type].devotions[id] = {
         readTime: calculateReadTime(content),
