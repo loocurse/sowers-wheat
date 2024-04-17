@@ -16,7 +16,7 @@ export const getStaticPaths = async () => {
 
   for await (const [root, dirs, files] of walk('src/lib/data/devotions')) {
     for (const file of files) {
-      const type = file.path.split('/')[file.path.split('/').length - 2];
+      const type = file.path.split('/')[file.path.split('/').length - 1];
       const id = file.name;
       // eslint-disable-next-line no-console
       console.log('getStaticPathsForDevotions', file.path, type, id);

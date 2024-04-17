@@ -36,7 +36,7 @@ export const getStaticProps = async () => {
   for await (const [root, dirs, files] of walk(rootPath)) {
     for (const file of files) {
       if (file.name.endsWith('.json')) continue;
-      const type = file.path.split('/')[file.path.split('/').length - 2];
+      const type = file.path.split('/')[file.path.split('/').length - 1];
       const id = file.name;
       if (!devos[type]?.devotions) {
         devos[type] = {
