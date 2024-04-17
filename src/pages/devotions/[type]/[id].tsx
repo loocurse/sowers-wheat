@@ -6,17 +6,17 @@ import { Box, Flex, Heading, Text } from '@chakra-ui/react';
 import fs from 'fs/promises';
 import { NextSeo } from 'next-seo';
 import { walk } from 'node-os-walk';
+import path from 'path';
 
 import { calculateReadTime } from '~/lib/utils';
 
 export const getStaticPaths = async () => {
-  const articleFiles = await fs.readdir('src/lib/data/articles');
-
   const paths = [] as any;
 
   for await (const [root, dirs, files] of walk('src/lib/data/devotions')) {
     for (const file of files) {
-      const type = file.path.split('/')[file.path.split('/').length - 1];
+      const filePath = file.path.split(path.sep);
+      const type = filePath[filePath.length - 1];
       const id = file.name;
       // eslint-disable-next-line no-console
       console.log('getStaticPathsForDevotions', file.path, type, id);
