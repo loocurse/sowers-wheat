@@ -18,6 +18,8 @@ export const getStaticPaths = async () => {
     for (const file of files) {
       const type = file.path.split('/')[file.path.split('/').length - 1];
       const id = file.name;
+      // eslint-disable-next-line no-console
+      console.log('getStaticPathsForDevotions', type, id);
       paths.push({ params: { id, type } });
     }
   }
