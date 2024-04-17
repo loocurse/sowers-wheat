@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-continue */
 /* eslint-disable react/prop-types */
@@ -47,7 +48,7 @@ export const getStaticProps = async () => {
         };
       }
       const content = (
-        await fs.readFile(`${path.join(...filePath)}/${file.name}`)
+        await fs.readFile(path.join(rootPath, type, id))
       ).toString();
       devos[type].devotions[id] = {
         readTime: calculateReadTime(content),
