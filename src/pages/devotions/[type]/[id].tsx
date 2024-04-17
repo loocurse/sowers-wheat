@@ -19,7 +19,7 @@ export const getStaticPaths = async () => {
       const type = filePath[filePath.length - 1];
       const id = file.name;
       // eslint-disable-next-line no-console
-      console.log('getStaticPathsForDevotions', file.path, type, id);
+      console.log('getStaticPathsForDevotions', filePath, type, id);
       paths.push({ params: { id, type } });
     }
   }
