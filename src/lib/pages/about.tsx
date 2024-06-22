@@ -13,7 +13,7 @@ const About = () => {
       <Flex bg="#F3E9D9" w="full" p={9} justify="center" align="center">
         <Box w={{ md: '50%', base: 'full' }}>
           <Image
-            src="/assets/about.jpg"
+            src="/assets/about.jpeg"
             w={{ base: '90%', md: '40%' }}
             mx="auto"
             mb={4}
