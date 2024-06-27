@@ -24,6 +24,7 @@ const routes = [
   { name: 'About', path: '/about' },
   { name: 'Devotions', path: '/devotions' },
   { name: 'Articles', path: '/articles' },
+  { name: 'Expositions', path: '/expositions' },
 ];
 
 const Header = () => {
