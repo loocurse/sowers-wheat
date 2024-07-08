@@ -7,7 +7,6 @@ import { calculateReadTime } from '~/lib/utils';
 
 export const getStaticPaths = async () => {
   const articleFiles = await fs.readdir('src/lib/data/expositions');
-  console.log(articleFiles);
   const paths = articleFiles.map((filename) => ({
     params: { id: filename.split('.html')[0] },
   }));
