@@ -42,7 +42,12 @@ const Header = () => {
           Donate
         </Button>
       </Flex>
-      <Flex w="100%" justify="center">
+      <Flex
+        w="100%"
+        justify="center"
+        my={{ base: 2, md: 2 }}
+        overflowX={{ base: 'scroll', md: 'hidden' }}
+      >
         {routes.map((route) => (
           <Link mr="5" href={route.path} key={route.path}>
             <Text
